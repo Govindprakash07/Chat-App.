@@ -1,0 +1,19 @@
+const socket = io();
+
+const form = document.getElementById("form");
+const input = document.getElementById("input");
+const messages = document.getElementById("messages");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const message = input.value;
+    socket.emit("chat message", message);
+    input.value = "";
+});
+
+socket.on("chat message", function (msg) {
+    const newMessage = document.createElement("div");
+    newMessage.textContent = msg;
+    messages.appendChild(newMessage);
+    messages.scrollTop = messages.scrollHeight; // Scroll to the bottom
+});
